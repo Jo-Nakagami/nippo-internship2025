@@ -19,19 +19,24 @@ const TodoForm = ({ children }): JSX.Element => {
   const [editTargetTodo, setEditTargetTodo] = React.useState<TodoData>(newTodo);
 
   const onTodoSubmitted = (todo: TodoData) => {
-    switch (editingTodoIndex) {
-      case undefined:
-        setTodoList([...todoList, todo]);
-        break;
-      case 0:
-        setTodoList([todo, todoList.slice(1)].flat());
-        break;
-      default:
-        setTodoList([todoList.slice(0, editingTodoIndex), todo, todoList.slice(editingTodoIndex + 1)].flat());
-    }
-    setEditingTodoIndex(undefined);
-    setEditTargetTodo(newTodo);
+    const result = window.confirm('新タスクを追加しますか');
+      if (result) 
+        {switch (editingTodoIndex) {
+        case undefined:
+          setTodoList([...todoList, todo]);
+          break;
+        case 0:
+          setTodoList([todo, todoList.slice(1)].flat());
+          break;
+        default:
+          setTodoList([todoList.slice(0, editingTodoIndex), todo, todoList.slice(editingTodoIndex + 1)].flat());
+      }
+      setEditingTodoIndex(undefined);
+      setEditTargetTodo(newTodo);
+          
+      }
   }
+
 
   const onTodoEditBegining = (todo: TodoData) => {
     const idx = todoList.findIndex((item) => item.id === todo.id);
