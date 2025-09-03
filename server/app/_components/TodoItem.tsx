@@ -5,6 +5,8 @@ type TodoItemProps = {
   id: number;
   todo: TodoData;
   onEditBeginingHandler?: (todo: TodoData) => void;
+  onStatusChange?: (id: number, newStatus: TodoStatus) => void;  // ←ここを受け取るように追加
+  isediting: boolean;
 };
 
 const TodoItem = ({ todo, onEditBeginingHandler }: TodoItemProps): JSX.Element => {
@@ -32,6 +34,29 @@ const TodoItem = ({ todo, onEditBeginingHandler }: TodoItemProps): JSX.Element =
       itemDesign.bgColor = "bg-emerald-500";
       break;
   }
+const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
+
+  const editButtonStyles = isediting
+    ? "bg-red-600 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition-colors duration-300"
+    : "bg-indigo-600 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-300";
+
+  const [isEditing, setIsEditing] = useState<boolean>(isediting);
+
+  const handleEditClick = () => {
+    if (onEditBeginingHandler) {
+      onEditBeginingHandler(todo);
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleStatusChange = (newStatus: TodoStatus) => {
+    console.log("handleStatusChange called with:", newStatus); 
+    if (onStatusChange && todo.id !== undefined) {
+      onStatusChange(todo.id, newStatus);
+    } else {
+      console.warn("onStatusChange 未設定 または todo.id が不正", todo);
+    }
+  };
 
   return (
     <div className="flex w-full border border-gray-300 max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -51,10 +76,32 @@ const TodoItem = ({ todo, onEditBeginingHandler }: TodoItemProps): JSX.Element =
             {todo.description}
           </p>
           <button
-            className="flex w-15 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => onEditBeginingHandler(todo)}
+            <button
+            className={`flex w-20 justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ${editButtonStyles}`}
+            onClick={handleEditClick}
           >
+            <FaPen className="mr-2" />
             編集
+          </button>
+
+          <div className="mt-2">
+            <button
+              onClick={() => handleStatusChange(TodoStatus.Backlog)}
+              className="mr-2 px-3 py-1.5 bg-gray-500 text-white rounded-md"
+            >
+              未着手
+            </button>
+            <button
+              onClick={() => handleStatusChange(TodoStatus.Inprogress)}
+              className="mr-2 px-3 py-1.5 bg-blue-500 text-white rounded-md"
+            >
+              対応中
+            </button>
+            <button
+              onClick={() => handleStatusChange(TodoStatus.Done)}
+              className="mr-2 px-3 py-1.5 bg-emerald-500 text-white rounded-md"
+            >
+        　　　完了
           </button>
         </div>
       </div>
