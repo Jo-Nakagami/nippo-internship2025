@@ -2,12 +2,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
 
 type TodoItemProps = {
-  id: number;
+  id?: number; // idはtodo.idで十分なのでoptionalにしても良い
   todo: TodoData;
   onEditBeginingHandler?: (todo: TodoData) => void;
+  onDeleteHandler?: (id: number) => void;  // 追加
 };
 
-const TodoItem = ({ todo, onEditBeginingHandler }: TodoItemProps): JSX.Element => {
+const TodoItem = ({ todo, onEditBeginingHandler, onDeleteHandler }: TodoItemProps): JSX.Element => {
 
   let itemDesign = {
     caption: "",
@@ -52,10 +53,18 @@ const TodoItem = ({ todo, onEditBeginingHandler }: TodoItemProps): JSX.Element =
           </p>
           <button
             className="flex w-15 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => onEditBeginingHandler(todo)}
+            onClick={() => onEditBeginingHandler && onEditBeginingHandler(todo)}
           >
             編集
           </button>
+          {/* ここから追加: 削除ボタン */}
+          <button
+            className="flex w-15 justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 "
+            onClick={() => onDeleteHandler && onDeleteHandler(todo.id)}
+          >
+            削除
+          </button>
+          {/* ここまで追加 */}
         </div>
       </div>
     </div>
