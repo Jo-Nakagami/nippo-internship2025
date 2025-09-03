@@ -35,7 +35,8 @@ export default async function Home() {
     <>
       <h1 className="text-4xl font-bold text-black-400">
         <span className="text-red-500">To</span>
-        <span className="text-blue-500">Do</span>リスト
+        <span className="text-blue-500">Do</span>
+        リスト
       </h1>
       <TodoForm children={data} />
     </>
