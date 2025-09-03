@@ -35,8 +35,8 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, isediting }: To
       itemDesign.bgColor = "bg-emerald-500";
       break;
   }
-   
-  const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
+
+const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
 
   const editButtonStyles = isediting
     ? "bg-red-600 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition-colors duration-300"
@@ -104,6 +104,7 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, isediting }: To
               onClick={() => handleStatusChange(TodoStatus.Done)}
               className="mr-2 px-3 py-1.5 bg-emerald-500 text-white rounded-md"
             >
+
               完了
             </button>
           </div>
