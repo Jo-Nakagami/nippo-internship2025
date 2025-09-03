@@ -1,18 +1,18 @@
 'use client';
 
 import React from "react";
-import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
-import TodoItem from "@/app/_components/TodoItem";
+import { TodoData } from "@/app/_types/TodoTypes";
 
 type TodoEditorProps = {
   editTargetTodo: TodoData;
   onSubmit: (todo: TodoData) => void;
+  isEditing: boolean;
 };
 
-const TodoEditor = ({ editTargetTodo, onSubmit }): JSX.Element => {
+const TodoEditor = ({ editTargetTodo, onSubmit, isEditing }: TodoEditorProps): JSX.Element => {
   if (!editTargetTodo) {
     return <p>loading...</p>
-  };
+  }
 
   const [todo, setTodo] = React.useState<TodoData>(editTargetTodo);
 
@@ -21,15 +21,11 @@ const TodoEditor = ({ editTargetTodo, onSubmit }): JSX.Element => {
   }, [editTargetTodo]);
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTodo = { ...todo };
-    newTodo.title = e.target.value;
-    setTodo(newTodo);
+    setTodo({ ...todo, title: e.target.value });
   };
 
   const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTodo = { ...todo };
-    newTodo.description = e.target.value;
-    setTodo(newTodo);
+    setTodo({ ...todo, description: e.target.value });
   };
 
   return (
@@ -61,13 +57,12 @@ const TodoEditor = ({ editTargetTodo, onSubmit }): JSX.Element => {
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={() => onSubmit(todo)}
           >
-            保存
+            {isEditing ? "変更" : "追加"}
           </button>
         </div>
       </form>
     </div>
   );
-  
 };
 
 export default TodoEditor;
