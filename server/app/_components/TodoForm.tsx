@@ -5,6 +5,10 @@ import TodoItem from "@/app/_components/TodoItem";
 import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
 import TodoEditor from "@/app/_components/TodoEditor";
 
+type TodoFormProps = {
+  children: TodoData[]; // 初期データを children で受け取る
+};
+
 const TodoForm = ({ children }): JSX.Element => {
 
   const [todoList, setTodoList] = React.useState<TodoData[]>(children);
@@ -38,11 +42,28 @@ const TodoForm = ({ children }): JSX.Element => {
     setEditingTodoIndex(idx);
     setEditTargetTodo(todoList[idx]);
   }
-
+  const onTodoEditBegining = (todo: TodoData) => {
+    const idx = todoList.findIndex((item) => item.id === todo.id);
+    setEditingTodoIndex(idx);
+    setEditTargetTodo(todoList[idx]);
+   
+  };
+   const onStatusChange = (id: number, newStatus: TodoStatus) => {
+    const updatedList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, status: newStatus } : todo
+    );
+    setTodoList(updatedList);
+  };
+  
   return (
     <>
       { todoList && todoList.map((item) => (
-        <TodoItem key={item.id} todo={item} onEditBeginingHandler={onTodoEditBegining} />
+        <TodoItem key={item.id}
+                  todo={item} 
+                  onEditBeginingHandler={onTodoEditBegining}
+                  isediting={idx === editingTodoIndex}
+                  onStatusChange={onStatusChange}
+          />
       ))}
       <TodoEditor editTargetTodo={editTargetTodo} onSubmit={onTodoSubmitted}/>
     </>
