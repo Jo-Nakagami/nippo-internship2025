@@ -4,7 +4,12 @@ import TodoItem from "@/app/_components/TodoItem";
 import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
 import TodoEditor from "@/app/_components/TodoEditor";
 
-const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
+type TodoFormProps = {
+  children: TodoData[]; // 初期データを children で受け取る
+};
+
+const TodoForm = ({ children }: TodoFormProps): JSX.Element => {
+  
   const [todoList, setTodoList] = React.useState<TodoData[]>(children);
   const [editingTodoIndex, setEditingTodoIndex] = React.useState<number | undefined>(undefined);
 
@@ -24,7 +29,6 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
   const [editTargetTodo, setEditTargetTodo] = React.useState<TodoData>(generateNewTodo());
 
   const onTodoSubmitted = (todo: TodoData) => {
-
     const result = window.confirm('新タスクを追加しますか？');
     if (!result) return;
 
@@ -43,13 +47,20 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
     setEditTargetTodo(generateNewTodo());
   };
 
-
+ 
   const onTodoEditBegining = (todo: TodoData) => {
     const idx = todoList.findIndex((item) => item.id === todo.id);
     if (idx !== -1) {
       setEditingTodoIndex(idx);
       setEditTargetTodo(todoList[idx]);
     }
+  };
+
+  const onStatusChange = (id: number, newStatus: TodoStatus) => {
+    const updatedList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, status: newStatus } : todo
+    );
+    setTodoList(updatedList);
   };
 
   // ここから追加: 削除関数
@@ -72,14 +83,16 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
   return (
     <>
 
-      {todoList && todoList.map((item) => (
+      {todoList && todoList.map((item, idx) => (
 
         <TodoItem
           key={item.id}
           todo={item}
           onEditBeginingHandler={onTodoEditBegining}
+          isediting={idx === editingTodoIndex}
 
           onDeleteHandler={onDeleteTodo}  // ここで削除ハンドラを渡す
+          onStatusChange={onStatusChange}
 
         />
       ))}
