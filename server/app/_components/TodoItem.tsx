@@ -1,4 +1,6 @@
+
 import React, { useState } from "react";
+
 import { FaCheckCircle, FaPen } from "react-icons/fa";
 import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
 
@@ -36,12 +38,19 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, onDeleteHandler
       itemDesign.bgColor = "bg-emerald-500";
       break;
   }
+ // 編集中の状態に追加するスタイル
+  const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
 
-const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
+
+
+
+
 
   const editButtonStyles = isediting
     ? "bg-red-600 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition-colors duration-300"
     : "bg-indigo-600 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-300";
+
+
 
   const [isEditing, setIsEditing] = useState<boolean>(isediting);
 
@@ -52,6 +61,7 @@ const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
     setIsEditing(!isEditing);
   };
 
+
   const handleStatusChange = (newStatus: TodoStatus) => {
     console.log("handleStatusChange called with:", newStatus); 
     if (onStatusChange && todo.id !== undefined) {
@@ -60,6 +70,7 @@ const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
       console.warn("onStatusChange 未設定 または todo.id が不正", todo);
     }
   };
+
 
   return (
     <div className={`flex w-full border border-gray-300 max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 ${editingStyles}`}>
@@ -78,12 +89,15 @@ const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
           <p className="text-sm text-gray-600 dark:text-gray-200">
             {todo.description}
           </p>
-          
+ 
           <button
             className={`flex w-20 justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ${editButtonStyles}`}
             onClick={handleEditClick}
           >
+
+
             <FaPen className="mr-2" />
+
             編集
           </button>
 
