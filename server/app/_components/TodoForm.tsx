@@ -41,12 +41,7 @@ const TodoForm = ({ children }: TodoFormProps): JSX.Element => {
       }
   };
 
-  const onTodoEditBegining = (todo: TodoData) => {
-    const idx = todoList.findIndex((item) => item.id === todo.id);
-    setEditingTodoIndex(idx);
-    setEditTargetTodo(todoList[idx]);
-
-  }
+ 
   const onTodoEditBegining = (todo: TodoData) => {
     const idx = todoList.findIndex((item) => item.id === todo.id);
     setEditingTodoIndex(idx);
