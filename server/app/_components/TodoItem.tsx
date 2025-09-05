@@ -7,10 +7,11 @@ type TodoItemProps = {
   todo: TodoData;
   onEditBeginingHandler?: (todo: TodoData) => void;
   onStatusChange?: (id: number, newStatus: TodoStatus) => void;  // ←ここを受け取るように追加
+  onDeleteHandler?: (id: number) => void;  // 追加
   isediting: boolean;
 };
 
-const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, isediting }: TodoItemProps): JSX.Element => {  // ←propsに追加
+const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, onDeleteHandler, isediting }: TodoItemProps): JSX.Element => {  // ←propsに追加
 
   let itemDesign = {
     caption: "",
@@ -30,7 +31,7 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, isediting }: To
       itemDesign.bgColor = "bg-blue-500";
       break;
     case TodoStatus.Done:
-      itemDesign.caption = "完了"
+      itemDesign.caption = "完了";
       itemDesign.textColor = "text-emerald-500";
       itemDesign.bgColor = "bg-emerald-500";
       break;
@@ -67,7 +68,6 @@ const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
           <FaCheckCircle className="w-6 h-6 text-white fill-current" />
         )}
       </div>
-
       <div className="px-4 py-2 -mx-3">
         <div className="mx-3">
           <span className={`font-semibold ${itemDesign.textColor}`}>
@@ -108,6 +108,12 @@ const editingStyles = isediting ? "border-2 border-red-500 bg-red-50" : "";
               完了
             </button>
           </div>
+          <button
+            className="flex w-15 justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 "
+            onClick={() => onDeleteHandler && onDeleteHandler(todo.id)}
+          >
+            削除
+          </button>
         </div>
       </div>
     </div>
