@@ -24,6 +24,7 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
   const [editTargetTodo, setEditTargetTodo] = React.useState<TodoData>(generateNewTodo());
 
   const onTodoSubmitted = (todo: TodoData) => {
+
     const result = window.confirm('新タスクを追加しますか？');
     if (!result) return;
 
@@ -42,6 +43,7 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
     setEditTargetTodo(generateNewTodo());
   };
 
+
   const onTodoEditBegining = (todo: TodoData) => {
     const idx = todoList.findIndex((item) => item.id === todo.id);
     if (idx !== -1) {
@@ -50,13 +52,35 @@ const TodoForm = ({ children }: { children: TodoData[] }): JSX.Element => {
     }
   };
 
+  // ここから追加: 削除関数
+  const onDeleteTodo = (id: number) => {
+    const result = window.confirm('本当にこのタスクを削除しますか？');
+    if (result) {
+      setTodoList(todoList.filter(todo => todo.id !== id));
+      // 編集中のタスクを削除した場合は編集状態もリセット
+      if (editingTodoIndex !== undefined) {
+        const editingTodo = todoList[editingTodoIndex];
+        if (editingTodo && editingTodo.id === id) {
+          setEditingTodoIndex(undefined);
+          setEditTargetTodo(newTodo);
+        }
+      }
+    }
+  }
+  // ここまで追加
+
   return (
     <>
-      {todoList.map((item) => (
+
+      {todoList && todoList.map((item) => (
+
         <TodoItem
           key={item.id}
           todo={item}
           onEditBeginingHandler={onTodoEditBegining}
+
+          onDeleteHandler={onDeleteTodo}  // ここで削除ハンドラを渡す
+
         />
       ))}
       <TodoEditor editTargetTodo={editTargetTodo} onSubmit={onTodoSubmitted} />
