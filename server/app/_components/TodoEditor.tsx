@@ -5,10 +5,20 @@ import { TodoData } from "@/app/_types/TodoTypes";
 type TodoEditorProps = {
   editTargetTodo: TodoData;
   onSubmit: (todo: TodoData) => void;
+  isEditing: boolean;
 };
 
-const TodoEditor = ({ editTargetTodo, onSubmit }: TodoEditorProps): JSX.Element => {
+// <<<<<<< HEAD
+// const TodoEditor = ({ editTargetTodo, onSubmit, isEditing }: TodoEditorProps): JSX.Element => {
+//   if (!editTargetTodo) {
+//     return <p>loading...</p>
+//   }
+
+//   const [todo, setTodo] = React.useState<TodoData>(editTargetTodo);
+// =======
+const TodoEditor = ({ editTargetTodo, onSubmit, isEditing }: TodoEditorProps): JSX.Element => {
   const [todo, setTodo] = React.useState<TodoData | null>(null);
+// >>>>>>> origin/main
 
   React.useEffect(() => {
     setTodo(editTargetTodo);
@@ -24,6 +34,8 @@ const TodoEditor = ({ editTargetTodo, onSubmit }: TodoEditorProps): JSX.Element 
 
   const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo({ ...todo, description: e.target.value });
+// <<<<<<< HEAD
+// =======
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -31,6 +43,7 @@ const TodoEditor = ({ editTargetTodo, onSubmit }: TodoEditorProps): JSX.Element 
     if (todo) {
       onSubmit(todo);
     }
+// >>>>>>> origin/main
   };
 
   return (
@@ -59,7 +72,7 @@ const TodoEditor = ({ editTargetTodo, onSubmit }: TodoEditorProps): JSX.Element 
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            保存
+            {isEditing ? "変更" : "追加"}
           </button>
         </div>
       </form>

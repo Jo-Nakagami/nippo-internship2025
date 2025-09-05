@@ -5,7 +5,10 @@ import { FaCheckCircle, FaPen } from "react-icons/fa";
 import { TodoData, TodoStatus } from "@/app/_types/TodoTypes";
 
 type TodoItemProps = {
+// <<<<<<< HEAD
+// =======
   id?: number;
+// >>>>>>> origin/main
   todo: TodoData;
   onEditBeginingHandler?: (todo: TodoData) => void;
   onStatusChange?: (id: number, newStatus: TodoStatus) => void;  // ←ここを受け取るように追加
@@ -71,9 +74,20 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, onDeleteHandler
     }
   };
 
+// <<<<<<< HEAD
+//     <div className="flex w-full border border-gray-300 max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 mb-4">
+// =======
 
+// {/* >>>>>>> origin/main */}
+
+// <<<<<<< HEAD
+//             className="mt-2 flex w-15 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500"
+//             onClick={() => onEditBeginingHandler?.(todo)}
+// =======
   return (
+
     <div className={`flex w-full border border-gray-300 max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 ${editingStyles}`}>
+
       <div className={`flex items-center justify-center w-12 ${itemDesign.bgColor}`}>
         {todo.status === TodoStatus.Done && (
           <FaCheckCircle className="w-6 h-6 text-white fill-current" />
@@ -91,8 +105,10 @@ const TodoItem = ({ todo, onEditBeginingHandler, onStatusChange, onDeleteHandler
           </p>
  
           <button
+
             className={`flex w-20 justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ${editButtonStyles}`}
             onClick={handleEditClick}
+
           >
 
 
